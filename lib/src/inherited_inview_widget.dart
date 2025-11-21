@@ -5,10 +5,12 @@ import 'inview_state.dart';
 
 class InheritedInViewWidget extends InheritedWidget {
   final InViewState? inViewState;
-  final Widget child;
 
-  InheritedInViewWidget({Key? key, this.inViewState, required this.child})
-      : super(key: key, child: child);
+  const InheritedInViewWidget({
+    super.key,
+    this.inViewState,
+    required super.child,
+  });
 
   @override
   bool updateShouldNotify(InheritedInViewWidget oldWidget) => false;

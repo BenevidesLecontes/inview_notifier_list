@@ -10,10 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Container(
-        color: Colors.grey.shade300,
-        child: HomePage(),
-      ),
+      home: Container(color: Colors.grey.shade300, child: HomePage()),
     );
   }
 }
@@ -40,30 +37,25 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: Text('ÍnViewNotifierList'),
           centerTitle: true,
-          bottom: TabBar(
-            tabs: myTabs,
-          ),
+          bottom: TabBar(tabs: myTabs),
         ),
         body: TabBarView(
           children: <Widget>[
             MyList(
               key: ValueKey("list1"),
               initialInViewIds: ['0'],
-              inViewArea: Container(
-                height: 1.0,
-                color: Colors.redAccent,
-              ),
+              inViewArea: Container(height: 1.0, color: Colors.redAccent),
             ),
             MyList(
               initialInViewIds: ['0'],
               inViewPortCondition:
                   (double deltaTop, double deltaBottom, double vpHeight) {
-                return (deltaTop < (0.5 * vpHeight) + 100.0 &&
-                    deltaBottom > (0.5 * vpHeight) - 100.0);
-              },
+                    return (deltaTop < (0.5 * vpHeight) + 100.0 &&
+                        deltaBottom > (0.5 * vpHeight) - 100.0);
+                  },
               inViewArea: Container(
                 height: 200.0,
-                color: Colors.redAccent.withOpacity(0.2),
+                color: Colors.redAccent.withValues(alpha: 0.2),
               ),
             ),
             VideoList(),

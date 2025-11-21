@@ -8,7 +8,5 @@ class WidgetData {
   WidgetData({required this.context, required this.id});
 
   @override
-  String toString() {
-    return describeIdentity(this) + " id=$id";
-  }
+  String toString() => '${describeIdentity(this)} id=$id';
 }

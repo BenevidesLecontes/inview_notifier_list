@@ -6,8 +6,7 @@ import '../example/lib/csv_example.dart';
 
 void main() {
   final TestWidgetsFlutterBinding binding =
-      TestWidgetsFlutterBinding.ensureInitialized()
-          as TestWidgetsFlutterBinding;
+      TestWidgetsFlutterBinding.ensureInitialized();
   group('test the inViewState', () {
     test('only n number of contexts are stored', () {
       final InViewState state = InViewState(
@@ -42,10 +41,7 @@ void main() {
       return tester.pumpWidget(
         MaterialApp(
           home: !isCustomScrollView
-              ? MyList(
-                  inViewPortCondition: condition!,
-                  controller: controller!,
-                )
+              ? MyList(inViewPortCondition: condition!, controller: controller!)
               : CSVExample(
                   scrollController: controller!,
                   inViewPortCondition: condition!,
@@ -55,78 +51,89 @@ void main() {
     }
 
     testWidgets(
-        'Only one container is green when halfway condition is provided',
-        (WidgetTester tester) async {
-      final ScrollController controller = ScrollController();
-      IsInViewPortCondition condition =
-          (double deltaTop, double deltaBottom, double vpHeight) {
-        return deltaTop < (0.5 * vpHeight) && deltaBottom > (0.5 * vpHeight);
-      };
+      'Only one container is green when halfway condition is provided',
+      (WidgetTester tester) async {
+        final ScrollController controller = ScrollController();
+        IsInViewPortCondition condition =
+            (double deltaTop, double deltaBottom, double vpHeight) {
+              return deltaTop < (0.5 * vpHeight) &&
+                  deltaBottom > (0.5 * vpHeight);
+            };
 
-      await binding.setSurfaceSize(Size(500, 800));
+        await binding.setSurfaceSize(Size(500, 800));
 
-      await _buildInViewNotifier(tester,
-          condition: condition, controller: controller);
+        await _buildInViewNotifier(
+          tester,
+          condition: condition,
+          controller: controller,
+        );
 
-      expect(ContianerByColorFinder(Colors.lightGreen), findsNothing);
-      controller.jumpTo(600.0);
-      await tester.pump(Duration(milliseconds: 2000));
+        expect(ContianerByColorFinder(Colors.lightGreen), findsNothing);
+        controller.jumpTo(600.0);
+        await tester.pump(Duration(milliseconds: 2000));
 
-      expect(ContianerByColorFinder(Colors.lightGreen), findsOneWidget);
-    });
-
-    testWidgets(
-        'Only 3 in grid containers are green when halfway condition is provided for CustomScrollView',
-        (WidgetTester tester) async {
-      final ScrollController controller = ScrollController();
-      IsInViewPortCondition condition =
-          (double deltaTop, double deltaBottom, double vpHeight) {
-        return deltaTop < (0.5 * vpHeight) && deltaBottom > (0.5 * vpHeight);
-      };
-
-      await binding.setSurfaceSize(Size(500, 800));
-
-      await _buildInViewNotifier(
-        tester,
-        condition: condition,
-        controller: controller,
-        isCustomScrollView: true,
-      );
-
-      expect(ContianerByColorFinder(Colors.lightGreen), findsNWidgets(3));
-      controller.jumpTo(300.0);
-      await tester.pump(Duration(milliseconds: 2000));
-
-      expect(ContianerByColorFinder(Colors.lightGreen), findsNWidgets(3));
-
-      //jump to a sliver listview. Now only 1 item is inview.
-      controller.jumpTo(1200.0);
-      await tester.pump(Duration(milliseconds: 2000));
-
-      expect(ContianerByColorFinder(Colors.lightGreen), findsNWidgets(1));
-    });
+        expect(ContianerByColorFinder(Colors.lightGreen), findsOneWidget);
+      },
+    );
 
     testWidgets(
-        'Two containera are green when condition with 200.0 height is provided',
-        (WidgetTester tester) async {
-      final ScrollController controller = ScrollController();
-      IsInViewPortCondition condition =
-          (double deltaTop, double deltaBottom, double vpHeight) {
-        return deltaTop < (0.5 * vpHeight) + 100.0 &&
-            deltaBottom > (0.5 * vpHeight) - 100.0;
-      };
+      'Only 3 in grid containers are green when halfway condition is provided for CustomScrollView',
+      (WidgetTester tester) async {
+        final ScrollController controller = ScrollController();
+        IsInViewPortCondition condition =
+            (double deltaTop, double deltaBottom, double vpHeight) {
+              return deltaTop < (0.5 * vpHeight) &&
+                  deltaBottom > (0.5 * vpHeight);
+            };
 
-      await binding.setSurfaceSize(Size(500, 800));
+        await binding.setSurfaceSize(Size(500, 800));
 
-      await _buildInViewNotifier(tester,
-          condition: condition, controller: controller);
+        await _buildInViewNotifier(
+          tester,
+          condition: condition,
+          controller: controller,
+          isCustomScrollView: true,
+        );
 
-      expect(ContianerByColorFinder(Colors.lightGreen), findsNothing);
-      controller.jumpTo(380.0);
-      await tester.pump(Duration(milliseconds: 2000));
+        expect(ContianerByColorFinder(Colors.lightGreen), findsNWidgets(3));
+        controller.jumpTo(300.0);
+        await tester.pump(Duration(milliseconds: 2000));
 
-      expect(ContianerByColorFinder(Colors.lightGreen), findsNWidgets(2));
-    });
+        expect(ContianerByColorFinder(Colors.lightGreen), findsNWidgets(3));
+
+        //jump to a sliver listview. Now only 1 item is inview.
+        controller.jumpTo(1200.0);
+        await tester.pump(Duration(milliseconds: 2000));
+
+        expect(ContianerByColorFinder(Colors.lightGreen), findsNWidgets(1));
+      },
+    );
+
+    testWidgets(
+      'Two containera are green when condition with 200.0 height is provided',
+      (WidgetTester tester) async {
+        final ScrollController controller = ScrollController();
+        IsInViewPortCondition condition =
+            (double deltaTop, double deltaBottom, double vpHeight) {
+              return deltaTop < (0.5 * vpHeight) + 100.0 &&
+                  deltaBottom > (0.5 * vpHeight) - 100.0;
+            };
+
+        await binding.setSurfaceSize(Size(500, 800));
+
+        await _buildInViewNotifier(
+          tester,
+          condition: condition,
+          controller: controller,
+        );
+
+        expect(ContianerByColorFinder(Colors.lightGreen), findsNothing);
+        controller.jumpTo(380.0);
+        await tester.pump(Duration(milliseconds: 2000));
+
+        expect(ContianerByColorFinder(Colors.lightGreen), findsNWidgets(2));
+      },
+    );
   });
 }
 
@@ -134,7 +141,7 @@ class ContianerByColorFinder extends MatchFinder {
   final Color color;
 
   ContianerByColorFinder(this.color, {bool skipOffstage = true})
-      : super(skipOffstage: skipOffstage);
+    : super(skipOffstage: skipOffstage);
 
   @override
   String get description => 'Container{color: "$color"}';

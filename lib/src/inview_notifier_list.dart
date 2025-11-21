@@ -10,15 +10,15 @@ import 'inview_state.dart';
 ///It's just like the [ListView.builder].
 class InViewNotifierList extends InViewNotifier {
   InViewNotifierList({
-    Key? key,
+    super.key,
     int? itemCount,
     required IndexedWidgetBuilder builder,
-    List<String> initialInViewIds = const [],
-    double endNotificationOffset = 0.0,
-    VoidCallback? onListEndReached,
-    Duration throttleDuration = const Duration(milliseconds: 200),
+    super.initialInViewIds = const [],
+    super.endNotificationOffset = 0.0,
+    super.onListEndReached,
+    super.throttleDuration = const Duration(milliseconds: 200),
     Axis scrollDirection = Axis.vertical,
-    required IsInViewPortCondition isInViewPortCondition,
+    required super.isInViewPortCondition,
     ScrollController? controller,
     EdgeInsets? padding,
     ScrollPhysics? physics,
@@ -26,32 +26,30 @@ class InViewNotifierList extends InViewNotifier {
     bool? primary,
     bool shrinkWrap = false,
     bool addAutomaticKeepAlives = true,
-  })  : assert(endNotificationOffset >= 0.0),
-        super(
-          key: key,
-          initialInViewIds: initialInViewIds,
-          endNotificationOffset: endNotificationOffset,
-          onListEndReached: onListEndReached,
-          throttleDuration: throttleDuration,
-          isInViewPortCondition: isInViewPortCondition,
-          child: ListView.builder(
-            padding: padding,
-            controller: controller,
-            scrollDirection: scrollDirection,
-            physics: physics,
-            reverse: reverse,
-            primary: primary,
-            addAutomaticKeepAlives: addAutomaticKeepAlives,
-            shrinkWrap: shrinkWrap,
-            itemCount: itemCount,
-            itemBuilder: builder,
-          ),
-        );
+  }) : assert(endNotificationOffset >= 0.0),
+       super(
+         child: ListView.builder(
+           padding: padding,
+           controller: controller,
+           scrollDirection: scrollDirection,
+           physics: physics,
+           reverse: reverse,
+           primary: primary,
+           addAutomaticKeepAlives: addAutomaticKeepAlives,
+           shrinkWrap: shrinkWrap,
+           itemCount: itemCount,
+           itemBuilder: builder,
+         ),
+       );
 
   static InViewState? of(BuildContext context) {
-    final InheritedInViewWidget widget = context
-        .getElementForInheritedWidgetOfExactType<InheritedInViewWidget>()!
-        .widget as InheritedInViewWidget;
+    final InheritedInViewWidget widget =
+        context
+                .getElementForInheritedWidgetOfExactType<
+                  InheritedInViewWidget
+                >()!
+                .widget
+            as InheritedInViewWidget;
     return widget.inViewState;
   }
 }
@@ -65,14 +63,14 @@ class InViewNotifierList extends InViewNotifier {
 
 class InViewNotifierCustomScrollView extends InViewNotifier {
   InViewNotifierCustomScrollView({
-    Key? key,
+    super.key,
     required List<Widget> slivers,
-    List<String> initialInViewIds = const [],
-    double endNotificationOffset = 0.0,
-    VoidCallback? onListEndReached,
-    Duration throttleDuration = const Duration(milliseconds: 200),
+    super.initialInViewIds = const [],
+    super.endNotificationOffset = 0.0,
+    super.onListEndReached,
+    super.throttleDuration = const Duration(milliseconds: 200),
     Axis scrollDirection = Axis.vertical,
-    required IsInViewPortCondition isInViewPortCondition,
+    required super.isInViewPortCondition,
     ScrollController? controller,
     ScrollPhysics? physics,
     bool reverse = false,
@@ -81,29 +79,27 @@ class InViewNotifierCustomScrollView extends InViewNotifier {
     Key? center,
     double anchor = 0.0,
   }) : super(
-          key: key,
-          initialInViewIds: initialInViewIds,
-          endNotificationOffset: endNotificationOffset,
-          onListEndReached: onListEndReached,
-          throttleDuration: throttleDuration,
-          isInViewPortCondition: isInViewPortCondition,
-          child: CustomScrollView(
-            slivers: slivers,
-            anchor: anchor,
-            controller: controller,
-            scrollDirection: scrollDirection,
-            physics: physics,
-            reverse: reverse,
-            primary: primary,
-            shrinkWrap: shrinkWrap,
-            center: center,
-          ),
-        );
+         child: CustomScrollView(
+           slivers: slivers,
+           anchor: anchor,
+           controller: controller,
+           scrollDirection: scrollDirection,
+           physics: physics,
+           reverse: reverse,
+           primary: primary,
+           shrinkWrap: shrinkWrap,
+           center: center,
+         ),
+       );
 
   static InViewState? of(BuildContext context) {
-    final InheritedInViewWidget widget = context
-        .getElementForInheritedWidgetOfExactType<InheritedInViewWidget>()!
-        .widget as InheritedInViewWidget;
+    final InheritedInViewWidget widget =
+        context
+                .getElementForInheritedWidgetOfExactType<
+                  InheritedInViewWidget
+                >()!
+                .widget
+            as InheritedInViewWidget;
     return widget.inViewState;
   }
 }
@@ -141,11 +137,11 @@ class InViewNotifierWidget extends StatefulWidget {
   final Widget? child;
 
   const InViewNotifierWidget({
-    Key? key,
+    super.key,
     required this.id,
     required this.builder,
     this.child,
-  }) : super(key: key);
+  });
 
   @override
   _InViewNotifierWidgetState createState() => _InViewNotifierWidgetState();
